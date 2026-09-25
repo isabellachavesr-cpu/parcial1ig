@@ -1,68 +1,86 @@
 package model;
-import co.edu.uniquindio.lenguajecafetero.util.Validaciones;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Objects;
 
-/** Estudiante de la academia. Puede tener varias matrículas (una por curso). */
+/**
+ * Representa a un estudiante matriculado (o por matricular) en la academia.
+ * El documento de identidad es el identificador natural usado en las
+ * consultas ("buscar un estudiante mediante su documento de identidad").
+ */
 public class Estudiante {
 
-    private final String nombreCompleto;
-    private final String documento;
-    private final String telefono;
-    private final String correo;
-    private final int edad;
-    private final LocalDate fechaRegistro;
-    private final List<Matricula> matriculas = new ArrayList<>();
+    private String nombreCompleto;
+    private String documentoIdentidad;
+    private String telefono;
+    private String correo;
+    private int edad;
+    private LocalDate fechaRegistro;
 
-    public Estudiante(String nombreCompleto, String documento, String telefono,
+    public Estudiante(String nombreCompleto, String documentoIdentidad, String telefono,
                       String correo, int edad, LocalDate fechaRegistro) {
-        this.nombreCompleto = Validaciones.texto(nombreCompleto, "nombre completo");
-        this.documento = Validaciones.texto(documento, "documento de identidad");
-        this.telefono = Validaciones.texto(telefono, "teléfono");
-        this.correo = Validaciones.correo(correo);
-        this.edad = Validaciones.enteroPositivo(edad, "edad");
-        this.fechaRegistro = Validaciones.requerido(fechaRegistro, "fecha de registro");
-    }
-
-    /** Solo la academia (mismo paquete) asocia matrículas al estudiante. */
-    void agregarMatricula(Matricula matricula) {
-        matriculas.add(matricula);
+        this.nombreCompleto = nombreCompleto;
+        this.documentoIdentidad = documentoIdentidad;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.edad = edad;
+        this.fechaRegistro = fechaRegistro;
     }
 
     public String getNombreCompleto() {
         return nombreCompleto;
     }
 
-    public String getDocumento() {
-        return documento;
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getDocumentoIdentidad() {
+        return documentoIdentidad;
     }
 
     public String getTelefono() {
         return telefono;
     }
 
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
     public String getCorreo() {
         return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public int getEdad() {
         return edad;
     }
 
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
     public LocalDate getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public List<Matricula> getMatriculas() {
-        return Collections.unmodifiableList(matriculas);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Estudiante)) return false;
+        Estudiante that = (Estudiante) o;
+        return Objects.equals(documentoIdentidad, that.documentoIdentidad);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(documentoIdentidad);
     }
 
     @Override
     public String toString() {
-        return documento + " - " + nombreCompleto;
+        return nombreCompleto + " (CC " + documentoIdentidad + ")";
     }
 }
-

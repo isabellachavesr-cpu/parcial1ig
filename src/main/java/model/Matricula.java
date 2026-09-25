@@ -1,71 +1,53 @@
 package model;
-import co.edu.uniquindio.lenguajecafetero.exception.AcademiaException;
-import co.edu.uniquindio.lenguajecafetero.model.descuento.PoliticaDescuento;
-import co.edu.uniquindio.lenguajecafetero.model.descuento.SinDescuento;
-import co.edu.uniquindio.lenguajecafetero.util.Validaciones;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Matrícula de un estudiante en un curso. Se construye con el patrón Builder porque tiene
- * varios datos obligatorios y opcionales (servicios, profesor, descuento) y reglas de validación.
+ * Matricula de un estudiante en un curso.
  *
- * <p>Valor total = (valor base del curso + costo de sesiones con profesor + servicios) - descuento.</p>
+ * Implementa el patron Builder (igual que el ejemplo de clase con
+ * {@code Usuario.Builder}): la matricula tiene varios atributos, algunos
+ * opcionales (servicios adicionales, descuento) y su valor final depende
+ * de la combinacion de todos ellos, por lo que un constructor tradicional
+ * con muchos parametros seria confuso y propenso a errores. El
+ * constructor de Matricula es privado; solo el Builder puede crear la
+ * instancia final, y el valor final se calcula automaticamente en build().
  */
 public class Matricula {
 
-    private final String codigo;
+    private static int contadorId = 1;
+
+    private final int id;
     private final Estudiante estudiante;
     private final Curso curso;
     private final LocalDate fechaMatricula;
-    private final List<ServicioAdicional> servicios;
-    private final Asignacion asignacion;
-    private final PoliticaDescuento politicaDescuento;
+    private final List<ServicioAdicional> serviciosAdicionales;
+    private final double descuentoPorcentaje;
+    private final double valorFinal;
 
-    private Matricula(Builder b) {
-        this.codigo = b.codigo;
-        this.estudiante = b.estudiante;
-        this.curso = b.curso;
-        this.fechaMatricula = b.fechaMatricula;
-        this.servicios = new ArrayList<>(b.servicios);
-        this.asignacion = b.asignacion;
-        this.politicaDescuento = b.politicaDescuento;
+    private Matricula(Builder builder) {
+        this.id = contadorId++;
+        this.estudiante = builder.estudiante;
+        this.curso = builder.curso;
+        this.fechaMatricula = builder.fechaMatricula;
+        this.serviciosAdicionales = builder.serviciosAdicionales;
+        this.descuentoPorcentaje = builder.descuentoPorcentaje;
+        this.valorFinal = calcularValorFinal();
     }
 
-    public static Builder builder() {
-        return new Builder();
+    private double calcularValorFinal() {
+        double valorServicios = serviciosAdicionales.stream()
+                .mapToDouble(ServicioAdicional::getPrecio)
+                .sum();
+        double subtotal = curso.calcularValorBase() + valorServicios;
+        double descuento = subtotal * (descuentoPorcentaje / 100.0);
+        return subtotal - descuento;
     }
 
-    public double calcularValorServicios() {
-        double total = 0;
-        for (ServicioAdicional servicio : servicios) {
-            total += servicio.getPrecio();
-        }
-        return total;
-    }
-
-    public double calcularSubtotal() {
-        double subtotal = curso.calcularValorBase() + calcularValorServicios();
-        if (asignacion != null) {
-            subtotal += asignacion.calcularCostoSesiones();
-        }
-        return subtotal;
-    }
-
-    public double calcularDescuento() {
-        return politicaDescuento.calcularDescuento(calcularSubtotal(), curso);
-    }
-
-    public double calcularValorTotal() {
-        return calcularSubtotal() - calcularDescuento();
-    }
-
-    public String getCodigo() {
-        return codigo;
+    public int getId() {
+        return id;
     }
 
     public Estudiante getEstudiante() {
@@ -80,44 +62,32 @@ public class Matricula {
         return fechaMatricula;
     }
 
-    public List<ServicioAdicional> getServicios() {
-        return Collections.unmodifiableList(servicios);
+    public List<ServicioAdicional> getServiciosAdicionales() {
+        return Collections.unmodifiableList(serviciosAdicionales);
     }
 
-    /** @return la asignación con profesor, o {@code null} si el curso no es personalizado. */
-    public Asignacion getAsignacion() {
-        return asignacion;
+    public double getDescuentoPorcentaje() {
+        return descuentoPorcentaje;
     }
 
-    public PoliticaDescuento getPoliticaDescuento() {
-        return politicaDescuento;
+    public double getValorFinal() {
+        return valorFinal;
     }
 
     @Override
     public String toString() {
-        return codigo + " - " + estudiante.getNombreCompleto() + " / " + curso.getNombre();
+        return "Matricula #" + id + " - " + estudiante.getNombreCompleto()
+                + " en " + curso.getNombre() + " ($" + String.format("%.2f", valorFinal) + ")";
     }
 
-    // ------------------------------------------------------------------ Builder
-
+    /** Constructor paso a paso (patron Builder) para {@link Matricula}. */
     public static class Builder {
 
-        private String codigo;
         private Estudiante estudiante;
         private Curso curso;
         private LocalDate fechaMatricula = LocalDate.now();
-        private final List<ServicioAdicional> servicios = new ArrayList<>();
-        private Profesor profesor;
-        private PoliticaDescuento politicaDescuento = new SinDescuento();
-        private Asignacion asignacion;
-
-        private Builder() {
-        }
-
-        public Builder codigo(String codigo) {
-            this.codigo = codigo;
-            return this;
-        }
+        private final List<ServicioAdicional> serviciosAdicionales = new ArrayList<>();
+        private double descuentoPorcentaje = 0;
 
         public Builder estudiante(Estudiante estudiante) {
             this.estudiante = estudiante;
@@ -130,65 +100,42 @@ public class Matricula {
         }
 
         public Builder fechaMatricula(LocalDate fechaMatricula) {
-            this.fechaMatricula = fechaMatricula;
+            if (fechaMatricula != null) {
+                this.fechaMatricula = fechaMatricula;
+            }
             return this;
         }
 
         public Builder agregarServicio(ServicioAdicional servicio) {
             if (servicio != null) {
-                this.servicios.add(servicio);
+                this.serviciosAdicionales.add(servicio);
             }
             return this;
         }
 
-        public Builder servicios(Collection<ServicioAdicional> servicios) {
-            this.servicios.clear();
+        public Builder servicios(List<ServicioAdicional> servicios) {
             if (servicios != null) {
-                this.servicios.addAll(servicios);
+                this.serviciosAdicionales.addAll(servicios);
             }
             return this;
         }
 
-        public Builder profesor(Profesor profesor) {
-            this.profesor = profesor;
-            return this;
-        }
-
-        public Builder politicaDescuento(PoliticaDescuento politicaDescuento) {
-            this.politicaDescuento = politicaDescuento != null ? politicaDescuento : new SinDescuento();
+        /** El descuento nunca puede quedar fuera del rango logico 0-100%. */
+        public Builder descuentoPorcentaje(double descuentoPorcentaje) {
+            if (descuentoPorcentaje < 0) {
+                this.descuentoPorcentaje = 0;
+            } else if (descuentoPorcentaje > 100) {
+                this.descuentoPorcentaje = 100;
+            } else {
+                this.descuentoPorcentaje = descuentoPorcentaje;
+            }
             return this;
         }
 
         public Matricula build() {
-            Validaciones.texto(codigo, "código de matrícula");
-            Validaciones.requerido(estudiante, "estudiante");
-            Validaciones.requerido(curso, "curso");
-            Validaciones.requerido(fechaMatricula, "fecha de matrícula");
-
-            if (curso.getEstado() != EstadoCurso.ACTIVO) {
-                throw new AcademiaException("Solo se puede matricular en cursos activos. El curso '"
-                        + curso.getNombre() + "' está " + curso.getEstado() + ".");
-            }
-            for (ServicioAdicional servicio : servicios) {
-                if (!servicio.isDisponible()) {
-                    throw new AcademiaException("El servicio '" + servicio.getNombre() + "' no está disponible.");
-                }
-            }
-
-            if (curso instanceof CursoPersonalizado personalizado) {
-                if (profesor == null) {
-                    throw new AcademiaException("Un curso personalizado requiere un profesor asignado.");
-                }
-                if (profesor.getIdioma() != curso.getIdioma()) {
-                    throw new AcademiaException("El profesor " + profesor.getNombre()
-                            + " enseña " + profesor.getIdioma() + " y el curso es de " + curso.getIdioma() + ".");
-                }
-                asignacion = new Asignacion(estudiante, personalizado, profesor);
-            } else {
-                if (profesor != null) {
-                    throw new AcademiaException("Solo los cursos personalizados tienen profesor asignado.");
-                }
-                asignacion = null;
+            if (estudiante == null || curso == null) {
+                throw new IllegalStateException(
+                        "Una matricula requiere un estudiante y un curso definidos.");
             }
             return new Matricula(this);
         }
