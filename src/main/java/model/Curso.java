@@ -1,45 +1,54 @@
 package model;
-import co.edu.uniquindio.lenguajecafetero.util.Validaciones;
-
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Clase abstracta que representa un curso de la academia.
- * Cada tipo concreto define cómo calcula su valor base (polimorfismo / OCP).
+ * Clase base abstracta para todos los tipos de curso ofrecidos por la
+ * academia. Aplica el principio Abierto/Cerrado (OCP): para agregar un
+ * nuevo tipo de curso se crea una nueva subclase, sin modificar esta
+ * clase ni el codigo que ya trabaja con {@code Curso}.
+ *
+ * El calculo del valor base es comun a todos los tipos (LSP: cualquier
+ * subclase puede usarse donde se espera un Curso); los tipos que
+ * necesiten un calculo distinto pueden sobrescribir {@link #calcularValorBase()}.
  */
 public abstract class Curso {
 
     private final String codigo;
-    private final String nombre;
+    private String nombre;
     private final Idioma idioma;
-    private final String descripcion;
-    private final int duracionMeses;
-    private final double valorMensual;
+    private String descripcion;
+    private int duracionMeses;
+    private double valorMensual;
     private EstadoCurso estado;
-    private final Set<Beneficio> beneficios;
+    private final List<Beneficio> beneficios = new ArrayList<>();
 
     protected Curso(String codigo, String nombre, Idioma idioma, String descripcion,
-                    int duracionMeses, double valorMensual, EstadoCurso estado,
-                    Set<Beneficio> beneficios) {
-        this.codigo = Validaciones.texto(codigo, "código");
-        this.nombre = Validaciones.texto(nombre, "nombre");
-        this.idioma = Validaciones.requerido(idioma, "idioma");
-        this.descripcion = Validaciones.texto(descripcion, "descripción");
-        this.duracionMeses = Validaciones.enteroPositivo(duracionMeses, "duración en meses");
-        this.valorMensual = Validaciones.positivo(valorMensual, "valor mensual");
-        this.estado = Validaciones.requerido(estado, "estado");
-        this.beneficios = (beneficios == null || beneficios.isEmpty())
-                ? EnumSet.noneOf(Beneficio.class)
-                : EnumSet.copyOf(beneficios);
+                    int duracionMeses, double valorMensual) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.idioma = idioma;
+        this.descripcion = descripcion;
+        this.duracionMeses = duracionMeses;
+        this.valorMensual = valorMensual;
+        this.estado = EstadoCurso.ACTIVO;
     }
 
-    /** Tipo del curso (regular, intensivo o personalizado). */
-    public abstract TipoCurso getTipo();
+    /** Nombre legible del tipo de curso (Regular, Intensivo, Personalizado). */
+    public abstract String getTipo();
 
-    /** Valor base del curso sin servicios adicionales ni descuentos. */
-    public abstract double calcularValorBase();
+    /** Valor base de la matricula antes de servicios adicionales y descuentos. */
+    public double calcularValorBase() {
+        return duracionMeses * valorMensual;
+    }
+
+    public void agregarBeneficio(Beneficio beneficio) {
+        beneficios.add(beneficio);
+    }
+
+    public List<Beneficio> getBeneficios() {
+        return beneficios;
+    }
 
     public String getCodigo() {
         return codigo;
@@ -47,6 +56,10 @@ public abstract class Curso {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public Idioma getIdioma() {
@@ -57,12 +70,24 @@ public abstract class Curso {
         return descripcion;
     }
 
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public int getDuracionMeses() {
         return duracionMeses;
     }
 
+    public void setDuracionMeses(int duracionMeses) {
+        this.duracionMeses = duracionMeses;
+    }
+
     public double getValorMensual() {
         return valorMensual;
+    }
+
+    public void setValorMensual(double valorMensual) {
+        this.valorMensual = valorMensual;
     }
 
     public EstadoCurso getEstado() {
@@ -70,15 +95,11 @@ public abstract class Curso {
     }
 
     public void setEstado(EstadoCurso estado) {
-        this.estado = Validaciones.requerido(estado, "estado");
-    }
-
-    public Set<Beneficio> getBeneficios() {
-        return Collections.unmodifiableSet(beneficios);
+        this.estado = estado;
     }
 
     @Override
     public String toString() {
-        return codigo + " - " + nombre + " (" + getTipo() + ")";
+        return "[" + getTipo() + "] " + codigo + " - " + nombre + " (" + idioma + ")";
     }
 }
