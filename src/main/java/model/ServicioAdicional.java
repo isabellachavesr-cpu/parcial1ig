@@ -1,11 +1,6 @@
 package model;
 import java.util.Objects;
 
-/**
- * Servicio adicional que un estudiante puede solicitar durante el
- * desarrollo del curso (simulacro de certificacion, tutoria de refuerzo,
- * material impreso, talleres de conversacion, etc).
- */
 public class ServicioAdicional {
 
     private String codigo;

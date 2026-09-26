@@ -44,12 +44,7 @@ public class CursoPersonalizado extends Curso {
         this.objetivosEstudiante = objetivosEstudiante;
     }
 
-    /**
-     * Patron Prototype: clona la configuracion de este curso personalizado
-     * (idioma, duracion, valor mensual, cantidad de sesiones, nivel y
-     * beneficios) para crear rapidamente uno nuevo con distinto codigo y
-     * objetivos, sin tener que rellenar de nuevo todo el formulario.
-     */
+
     public CursoPersonalizado clonarPlantilla(String nuevoCodigo, String nuevosObjetivos) {
         CursoPersonalizado clon = new CursoPersonalizado(
                 nuevoCodigo,

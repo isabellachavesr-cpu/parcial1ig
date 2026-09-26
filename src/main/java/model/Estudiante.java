@@ -2,11 +2,6 @@ package model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-/**
- * Representa a un estudiante matriculado (o por matricular) en la academia.
- * El documento de identidad es el identificador natural usado en las
- * consultas ("buscar un estudiante mediante su documento de identidad").
- */
 public class Estudiante {
 
     private String nombreCompleto;

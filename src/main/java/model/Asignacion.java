@@ -1,12 +1,7 @@
 package model;
 import java.time.LocalDate;
 
-/**
- * Relacion entre un estudiante, el curso personalizado que adquirio y el
- * profesor responsable de dictarlo. Un profesor puede atender distintos
- * estudiantes; cada Asignacion identifica de forma unica esa relacion
- * tripartita, tal como lo exige el enunciado.
- */
+
 public class Asignacion {
 
     private final Estudiante estudiante;
