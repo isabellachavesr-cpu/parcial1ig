@@ -28,11 +28,11 @@ public class CursoService {
             throw new IllegalArgumentException("Ya existe un curso con ese codigo.");
         }
 
-        // Factory Method: la fabrica concreta construye el tipo de Curso correcto
+
         CursoFactory fabricaCurso = fabricasCurso.get(tipo);
         Curso curso = fabricaCurso.crearCurso(datos);
 
-        // Abstract Factory: se asigna la familia de beneficios que corresponde al tipo
+
         FabricaBeneficios fabricaBeneficios = fabricasBeneficios.get(tipo);
         agregarSiExiste(curso, fabricaBeneficios.crearAccesoPlataformaVirtual());
         agregarSiExiste(curso, fabricaBeneficios.crearMaterialDidactico());
