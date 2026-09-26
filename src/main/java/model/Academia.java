@@ -2,7 +2,7 @@ package model;
 
 public class Academia {
 
-    // 1: variable estatica que guarda la unica instancia
+
     private static Academia instancia;
 
     private String nombreComercial;
@@ -12,7 +12,7 @@ public class Academia {
     private String correoElectronico;
     private String paginaWeb;
 
-    // 2: constructor privado, nadie puede crear la academia con "new"
+
     private Academia() {
         this.nombreComercial = "LenguajeCafetero";
         this.nit = "900.000.000-1";
@@ -22,7 +22,7 @@ public class Academia {
         this.paginaWeb = "www.lenguajecafetero.edu.co";
     }
 
-    // 3: metodo publico y estatico que entrega siempre la misma instancia
+
     public static Academia getInstance() {
         if (instancia == null) {
             instancia = new Academia();
