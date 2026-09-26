@@ -10,8 +10,6 @@ public class DatosCurso {
     public String descripcion;
     public int duracionMeses;
     public double valorMensual;
-
-    // Datos exclusivos de un curso personalizado
     public int cantidadSesiones;
     public NivelReferencia nivelReferencia;
     public String objetivosEstudiante;
