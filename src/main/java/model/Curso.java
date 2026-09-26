@@ -2,16 +2,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Clase base abstracta para todos los tipos de curso ofrecidos por la
- * academia. Aplica el principio Abierto/Cerrado (OCP): para agregar un
- * nuevo tipo de curso se crea una nueva subclase, sin modificar esta
- * clase ni el codigo que ya trabaja con {@code Curso}.
- *
- * El calculo del valor base es comun a todos los tipos (LSP: cualquier
- * subclase puede usarse donde se espera un Curso); los tipos que
- * necesiten un calculo distinto pueden sobrescribir {@link #calcularValorBase()}.
- */
 public abstract class Curso {
 
     private final String codigo;
@@ -34,12 +24,11 @@ public abstract class Curso {
         this.estado = EstadoCurso.ACTIVO;
     }
 
-    /** Nombre legible del tipo de curso (Regular, Intensivo, Personalizado). */
+
     public abstract String getTipo();
 
-    /** Valor base de la matricula antes de servicios adicionales y descuentos. */
-    public double calcularValorBase() {
-        return duracionMeses * valorMensual;
+
+    public double calcularValorBase() { return duracionMeses * valorMensual;
     }
 
     public void agregarBeneficio(Beneficio beneficio) {

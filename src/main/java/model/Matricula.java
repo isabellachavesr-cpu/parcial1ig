@@ -4,17 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Matricula de un estudiante en un curso.
- *
- * Implementa el patron Builder (igual que el ejemplo de clase con
- * {@code Usuario.Builder}): la matricula tiene varios atributos, algunos
- * opcionales (servicios adicionales, descuento) y su valor final depende
- * de la combinacion de todos ellos, por lo que un constructor tradicional
- * con muchos parametros seria confuso y propenso a errores. El
- * constructor de Matricula es privado; solo el Builder puede crear la
- * instancia final, y el valor final se calcula automaticamente en build().
- */
 public class Matricula {
 
     private static int contadorId = 1;
@@ -80,7 +69,7 @@ public class Matricula {
                 + " en " + curso.getNombre() + " ($" + String.format("%.2f", valorFinal) + ")";
     }
 
-    /** Constructor paso a paso (patron Builder) para {@link Matricula}. */
+
     public static class Builder {
 
         private Estudiante estudiante;

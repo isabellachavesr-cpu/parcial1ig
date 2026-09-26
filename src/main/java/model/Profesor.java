@@ -1,10 +1,6 @@
 package model;
 import java.util.Objects;
 
-/**
- * Profesor de la academia. Los profesores pueden ser asignados a
- * estudiantes matriculados en cursos personalizados (ver {@link Asignacion}).
- */
 public class Profesor {
 
     private String identificacion;
