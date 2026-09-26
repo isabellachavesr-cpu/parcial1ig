@@ -109,7 +109,7 @@ public class Matricula {
             return this;
         }
 
-        /** El descuento nunca puede quedar fuera del rango logico 0-100%. */
+
         public Builder descuentoPorcentaje(double descuentoPorcentaje) {
             if (descuentoPorcentaje < 0) {
                 this.descuentoPorcentaje = 0;
