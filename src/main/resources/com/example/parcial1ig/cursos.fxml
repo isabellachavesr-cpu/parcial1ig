@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.CursosController">
+    <top>
+        <VBox spacing="10" styleClass="panel-formulario">
+            <padding><Insets top="15" right="15" bottom="10" left="15"/></padding>
+            <Label text="Crear curso" styleClass="titulo-seccion"/>
+            <GridPane hgap="10" vgap="8">
+                <Label text="Tipo de curso:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="comboTipo" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="150"/>
+
+                <Label text="Codigo:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <TextField fx:id="txtCodigo" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="120"/>
+
+                <Label text="Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtNombre" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="220"/>
+
+                <Label text="Idioma:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <ComboBox fx:id="comboIdioma" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="140"/>
+
+                <Label text="Descripcion:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtDescripcion" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="220"/>
+
+                <Label text="Duracion (meses):" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                <TextField fx:id="txtDuracion" GridPane.rowIndex="2" GridPane.columnIndex="3" prefWidth="80"/>
+
+                <Label text="Valor mensual:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="txtValorMensual" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="140"/>
+            </GridPane>
+
+            <VBox fx:id="panelPersonalizado" spacing="8" styleClass="panel-personalizado">
+                <Label text="Datos del curso personalizado" styleClass="titulo-subseccion"/>
+                <GridPane hgap="10" vgap="8">
+                    <Label text="Cantidad de sesiones:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtSesiones" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="80"/>
+
+                    <Label text="Nivel de referencia:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <ComboBox fx:id="comboNivel" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="100"/>
+                </GridPane>
+                <Label text="Objetivos del estudiante:"/>
+                <TextArea fx:id="txtObjetivos" prefRowCount="2" wrapText="true"/>
+            </VBox>
+
+            <HBox spacing="10">
+                <Button text="Crear curso" onAction="#onCrearCurso" defaultButton="true"/>
+                <Button text="Limpiar" onAction="#onLimpiar"/>
+            </HBox>
+        </VBox>
+    </top>
+    <center>
+        <VBox spacing="8">
+            <padding><Insets top="10" right="15" bottom="15" left="15"/></padding>
+            <Label text="Cursos registrados" styleClass="titulo-seccion"/>
+            <TableView fx:id="tablaCursos" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colTipo" text="Tipo" prefWidth="100"/>
+                    <TableColumn fx:id="colCodigo" text="Codigo" prefWidth="80"/>
+                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="160"/>
+                    <TableColumn fx:id="colIdioma" text="Idioma" prefWidth="90"/>
+                    <TableColumn fx:id="colDuracion" text="Duracion" prefWidth="90"/>
+                    <TableColumn fx:id="colValorMensual" text="Valor mensual" prefWidth="100"/>
+                    <TableColumn fx:id="colEstado" text="Estado" prefWidth="90"/>
+                    <TableColumn fx:id="colBeneficios" text="Beneficios" prefWidth="260"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>
