@@ -28,8 +28,7 @@ public abstract class Curso {
     public abstract String getTipo();
 
 
-    public double calcularValorBase() {
-        return duracionMeses * valorMensual;
+    public double calcularValorBase() { return duracionMeses * valorMensual;
     }
 
     public void agregarBeneficio(Beneficio beneficio) {

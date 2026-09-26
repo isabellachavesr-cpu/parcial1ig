@@ -69,7 +69,7 @@ public class Matricula {
                 + " en " + curso.getNombre() + " ($" + String.format("%.2f", valorFinal) + ")";
     }
 
-    /** Constructor paso a paso (patron Builder) para {@link Matricula}. */
+
     public static class Builder {
 
         private Estudiante estudiante;

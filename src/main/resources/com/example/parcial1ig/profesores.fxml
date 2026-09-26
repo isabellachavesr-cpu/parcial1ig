@@ -26,7 +26,7 @@
                 <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
                 <TextField fx:id="txtNombre" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="220"/>
 
-                <Label text="Idioma que ensenia:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label text="Idioma que enseña:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <ComboBox fx:id="comboIdioma" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="150"/>
 
                 <Label text="Telefono:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
