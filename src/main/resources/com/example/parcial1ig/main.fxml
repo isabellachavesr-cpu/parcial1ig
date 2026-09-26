@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.MainController"
+            styleClass="fondo-app">
+    <top>
+        <HBox styleClass="barra-titulo" alignment="CENTER_LEFT" spacing="10">
+            <padding><Insets top="10" right="15" bottom="10" left="15"/></padding>
+            <Label text="Academia LenguajeCafetero" styleClass="titulo-app"/>
+            <Label fx:id="lblAcademia" styleClass="subtitulo-app"/>
+        </HBox>
+    </top>
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab id="tabEstudiantes" text="Estudiantes">
+                    <fx:include fx:id="estudiantes" source="estudiantes.fxml"/>
+                </Tab>
+                <Tab id="tabProfesores" text="Profesores">
+                    <fx:include fx:id="profesores" source="profesores.fxml"/>
+                </Tab>
+                <Tab id="tabCursos" text="Cursos">
+                    <fx:include fx:id="cursos" source="cursos.fxml"/>
+                </Tab>
+                <Tab id="tabServicios" text="Servicios adicionales">
+                    <fx:include fx:id="servicios" source="servicios.fxml"/>
+                </Tab>
+                <Tab id="tabMatriculas" text="Matriculas">
+                    <fx:include fx:id="matriculas" source="matriculas.fxml"/>
+                </Tab>
+                <Tab id="tabConsultas" text="Consultas e ingresos">
+                    <fx:include fx:id="consultas" source="consultas.fxml"/>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>

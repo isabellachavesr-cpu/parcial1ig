@@ -1,0 +1,59 @@
+.fondo-app {
+    -fx-background-color: #f4f6f8;
+}
+
+.barra-titulo {
+    -fx-background-color: #2c3e50;
+}
+
+.titulo-app {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.subtitulo-app {
+    -fx-text-fill: #cfd8dc;
+    -fx-font-size: 12px;
+}
+
+.titulo-seccion {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.titulo-subseccion {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+.panel-formulario {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dfe4ea;
+    -fx-border-width: 0 0 1 0;
+}
+
+.panel-personalizado {
+    -fx-background-color: #eef6ff;
+    -fx-padding: 10;
+    -fx-background-radius: 6;
+}
+
+.valor-destacado {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1b5e20;
+}
+
+.button {
+    -fx-background-color: #2c7a7b;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+}
+
+.button:hover {
+    -fx-background-color: #256063;
+}
