@@ -15,7 +15,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         AppContext context = new AppContext();
 
-        URL fxmlUrl = getClass().getResource("/com/lenguajecafetero/fxml/main.fxml");
+        URL fxmlUrl = getClass().getResource("/com/example/parcial1ig/main.fxml");
         FXMLLoader loader = new FXMLLoader(fxmlUrl);
         javafx.scene.layout.BorderPane root = loader.load();
 
@@ -23,7 +23,7 @@ public class App extends Application {
         controller.setContext(context);
 
         Scene scene = new Scene(root, 1100, 700);
-        URL cssUrl = getClass().getResource("/com/lenguajecafetero/css/estilos.css");
+        URL cssUrl = getClass().getResource("/com/example/parcial1ig/css/estilos.css");
         if (cssUrl != null) {
             scene.getStylesheets().add(cssUrl.toExternalForm());
         }
